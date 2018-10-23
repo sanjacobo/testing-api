@@ -20,10 +20,9 @@ public class TestApi {
     @Test
     public void test() throws IOException {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.openweathermap.org/data/2.5/")
+                .baseUrl(Constants.BaseUrls.openWeatherUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
 
         WeatherApi weatherApi = retrofit.create(WeatherApi.class);
 
@@ -35,9 +34,9 @@ public class TestApi {
 
         Response<WeatherResponse> response = weatherCall.execute();
 
-        assertThat("Call is Successful", response.isSuccessful(), equalTo(true));
+        assertThat("Call is Successful", response.code(), equalTo(Constants.Http.Ok));
 
-        assertThat("Location Name", response.body().getName(), equalTo("London"));
+        assertThat("Location Name is", response.body().getName(), equalTo("London"));
 
     }
 
